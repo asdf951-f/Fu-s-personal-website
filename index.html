@@ -3054,10 +3054,13 @@ if (menuBtn && navMenu) {
     var arrow = card.querySelector('.doc-arrow');
     if (!arrow) return;
     arrow.addEventListener('click', function (e) {
+      e.preventDefault();
       e.stopPropagation();
-      var url = card.getAttribute('data-doc');
-      if (url) { window.open(url, '_blank'); }
-      else { if (typeof gsap !== 'undefined') gsap.fromTo(arrow, { opacity: 1 }, { opacity: 0.4, duration: 0.15, yoyo: true, repeat: 1 }); }
+      var url = arrow.getAttribute('href') || arrow.href;
+      if (url) {
+        var w = window.open(url, '_blank', 'noopener');
+        if (!w) { window.location.href = url; }
+      }
     });
   });
 })();
