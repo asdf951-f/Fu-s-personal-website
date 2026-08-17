@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>职场小助手 RAG 产品方案</title>
+<style>
+  :root{
+    --purple-deep:#2e1065; --purple-dark:#4c1d95; --purple:#7c3aed;
+    --cream:#fdf6ec; --dark:#1e1b2e; --yellow:#FBBF24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:linear-gradient(180deg,var(--purple-deep),var(--purple-dark));color:var(--dark);min-height:100vh}
+  .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;
+    padding:14px 22px;background:rgba(30,27,46,.85);backdrop-filter:blur(8px);color:#fff}
+  .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:#fff;
+    background:var(--purple);border:2px solid #fff;border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600;transition:.2s}
+  .back:hover{background:var(--yellow);color:var(--dark);border-color:var(--yellow)}
+  .topbar h1{font-size:18px;margin:0;font-weight:800;letter-spacing:.5px}
+  .wrap{max-width:860px;margin:26px auto 80px;padding:0 18px}
+  .paper{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.35);padding:44px 48px;line-height:1.85;font-size:16px}
+  .paper h1{font-size:30px;line-height:1.4}
+  .paper h2{font-size:23px;margin-top:1.6em;padding-bottom:.3em;border-bottom:2px solid var(--yellow)}
+  .paper h3{font-size:19px;margin-top:1.4em}
+  .paper h4{font-size:16.5px}
+  .paper p{margin:.7em 0}
+  .paper ul,.paper ol{margin:.6em 0;padding-left:1.5em}
+  .paper li{margin:.25em 0}
+  .paper img{max-width:100%;height:auto;border-radius:8px}
+  .paper table{border-collapse:collapse;width:100%;margin:1em 0}
+  .paper th,.paper td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+  .paper th{background:#f6f0ff}
+  .paper blockquote{border-left:4px solid var(--purple);margin:1em 0;padding:.3em 1em;background:#faf7ff}
+  .paper a{color:var(--purple)}
+  @media(max-width:640px){.paper{padding:26px 20px}.topbar h1{font-size:15px}}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="../index.html#docs">← 返回产品文档</a>
+    <h1>职场小助手 RAG 产品方案</h1>
+  </div>
+  <div class="wrap">
+    <article class="paper">
+<h1>职场小助手 RAG 产品方案与评测说明</h1><p>本文档基于已上线的“职场小助手”Agent（基于FastGPT平台搭建，覆盖劳动法问答、职场维权等场景），按照 PRD结构撰写。</p><h2>一、背景与目标</h2><p>1.1 要解决的业务问题</p><p>职场新人（尤其是应届毕业生）普遍缺乏劳动法常识，面临以下典型困境：</p><ol><li>信息不对称：不知道试用期辞退需要“不符合录用条件”的法定依据，被公司一句“能力不行”就打发了</li><li>检索成本高：《劳动合同法》全文近万字，普通用户难以快速定位到与自己处境相关的条款</li><li>缺乏行动指引：即便查到了法条，也不知道“下一步该怎么做”、“话术怎么说”</li></ol><p>1.2 为什么用AI而不是规则/人工</p><table><tr><td><p>方案</p></td><td><p>劣势</p></td></tr><tr><td><p>规则引擎（关键词匹配）</p></td><td><p>用户提问方式千变万化（“试用期被开”、“试用期辞退”、“试用期不让干了”），无法穷举所有问法</p></td></tr><tr><td><p>纯人工客服</p></td><td><p>成本高、无法7×24小时响应</p></td></tr><tr><td><p>传统搜索引擎</p></td><td><p>返回大量网页，用户仍需自行筛选、阅读、理解</p></td></tr><tr><td><p>纯大模型（无RAG）</p></td><td><p>会编造不存在的法条（幻觉），风险极高</p></td></tr></table><p>RAG方案的核心价值：让AI“照着权威资料念”，既保留了大模型的理解和表达能力，又通过知识库约束了回答边界。</p><p>2. 用户故事与交互流程</p><p>2.1 正常路径（AI回答符合预期）</p><p>用户：试用期被无故辞退怎么办？</p><p>  ↓</p><p>系统：混合检索（语义+全文）→ 重排 → 命中知识库中“试用期辞退”条目</p><p>  ↓</p><p>AI输出三段式回答：</p><p>  【规则依据】《劳动合同法》第19条、第21条…</p><p>  【现实风险】警惕被忽悠主动写“个人原因辞职”…</p><p>  【行动指南】原话：“请提供我不符合录用条件的具体证据…”</p><p>  ↓</p><p>用户：获得可直接使用的法律依据+话术</p><p>2.2 异常路径（AI不确定/答错/超出能力边界时的兜底流程）</p><table><tr><td><p>异常场景</p></td><td><p>触发条件</p></td><td><p>兜底策略</p></td></tr><tr><td><p>知识库无匹配</p></td><td><p>检索相关度低于阈值（0.1） </p></td><td><p>回复：“该问题暂未收录，建议咨询专业律师或HR”</p></td></tr><tr><td><p>用户问法过于模糊</p></td><td><p>“我该怎么办？”（无上下文）</p></td><td><p>追问：“请问您具体遇到了什么情况？比如是试用期、加班还是离职相关？”</p></td></tr><tr><td><p>超出边界</p></td><td><p>问“怎么伪造考勤记录”</p></td><td><p>强制拒绝：“该问题超出我的服务范围”</p></td></tr><tr><td><p>多轮对话丢失上下文</p></td><td><p>先问“试用期被辞退”，再问“那赔偿呢？”</p></td><td><p>系统自动补全为“试用期被辞退的赔偿标准是什么？”（问题优化功能）</p></td></tr></table><p>3. 效果定义</p><p>3.1 目标指标</p><p>3.1.1模型层指标（衡量AI本身的表现）：</p><table><tr><td><p>指标</p></td><td><p>定义</p></td><td><p>当前值</p></td></tr><tr><td><p>检索召回率（Recall@K）</p></td><td><p>正确答案是否出现在检索返回的Top-K结果中</p></td><td><p>≥90%（K=5）</p></td></tr><tr><td><p>答案度（Faithfulness）</p></td><td><p>回答是否严格基于检索到的知识库内容，不添加额外信息</p></td><td><p>≥95%</p></td></tr><tr><td><p>答案相关性（Answer Relevancy）</p></td><td><p>回答是否直接回应用户问题</p></td><td><p>≥90%</p></td></tr></table><p>3.1.2产品层指标：</p><table><tr><td><p>指标</p></td><td><p>定义</p></td><td><p>目标值</p></td></tr><tr><td><p>引用准确率</p></td><td><p>回答中引用的法条/依据是否正确匹配知识库原文</p></td><td><p>≥95%</p></td></tr><tr><td><p>幻觉率</p></td><td><p>回答中出现知识库中不存在的信息的比例</p></td><td><p>&lt;5%</p></td></tr><tr><td><p>平均响应时间</p></td><td><p>从用户提问到收到完整回答的耗时</p></td><td><p>≤30秒</p></td></tr></table><p>3.1.3业务层指标：</p><table><tr><td><p>指标</p></td><td><p>定义 </p></td><td><p>目标值</p></td></tr><tr><td><p>用户问题解决率</p></td><td><p>用户获得可用答案的比例（通过用户反馈判断）</p></td><td><p>≥80%</p></td></tr><tr><td><p>分享链接使用人次</p></td><td><p>累计对话次数</p></td><td><p>持续追踪</p></td></tr></table><p>3.1.4因果假设：检索召回率越高 → 模型能看到越相关的资料 → 答案忠实度越高 → 用户问题解决率越高 → 产品价值被验证。</p><p>3.2 评测集</p><p>来源：</p><ol><li>从真实用户提问中抽取样本（覆盖试用期、加班费、离职赔偿、合同签署等场景）</li><li>手动构造边界测试用例（模糊问法、超纲问题、多轮对话）</li><li>规模：当前评测集约20个典型问题，计划扩展至50+</li><li>标注标准：每个测试问题预先标注“正确答案要点”（法条依据+核心建议），用于判断AI回答是否达标</li></ol><p>3.2.2更新机制：每次新增知识库内容后，用评测集全量回归测试，确保不引入新的错误</p><p>3.3 及格线</p><table><tr><td><p>维度</p></td><td><p>上线红线（必须达成）</p></td><td><p>长期目标线（持续优化）</p></td></tr><tr><td><p>引用准确率</p></td><td><p> ≥80% </p></td><td><p>≥95%</p></td></tr><tr><td><p>幻觉率 </p></td><td><p>&lt;10%</p></td><td><p>&lt;3%</p></td></tr><tr><td><p>检索召回率</p></td><td><p>≥70%</p></td><td><p>≥90%</p></td></tr><tr><td><p>平均响应时间</p></td><td><p>≤60秒</p></td><td><p>≤20秒</p></td></tr></table><p>4. 能力边界与不承诺清单</p><p>4.1 明确支持的场景</p><ol><li>劳动法相关问题（试用期、劳动合同、加班费、辞退赔偿、社保公积金等）</li><li>基于已收录法条和案例的维权建议</li><li>提供可直接使用的沟通话术</li></ol><p>4.2 明确不支持的场景</p><ol><li>非劳动法领域（婚姻、房产、刑事等）</li><li>代替专业律师出具法律意见</li><li>涉及具体金额计算（如“我该拿多少赔偿”需要结合个人工资、工龄等，无法精确计算）</li><li>实时政策查询（法律法规更新后需人工补充知识库）</li></ol><p>4.3 已知失败模式</p><ol><li>用户问法极度口语化且省略关键信息（如“那个钱”），可能导致检索不到</li><li>多轮对话中话题切换，上下文补全可能产生偏差</li><li>知识库未覆盖的新法规出台后，回答可能滞后</li></ol><p>4.4 不承诺的效果</p><ol><li>不承诺100%准确（法律解读存在专业分歧）</li><li>不承诺替代专业法律咨询</li><li>不承诺实时更新（知识库更新依赖人工维护）</li></ol><p>4.5 高风险场景的强制阻断规则</p><ol><li>涉及“怎么钻法律空子”“怎么伪造证据”等违规问题 → 直接拒绝回答</li><li>涉及“人命关天”的紧急法律问题（如“被拘留了怎么办”）→ 强制引导“请立即联系律师或报警”</li></ol><p>5. 数据需求与回流设计</p><p>5.1 冷启动数据来源</p><ol><li>《中华人民共和国劳动合同法》全文（政府官网手动搬运）</li><li>权威劳动法解读文章（筛选后人工清洗）</li><li>真实职场案例（脱敏处理，转化为“场景-依据-建议”结构）</li></ol><p>关键原则：所有数据必须人工复核来源，严禁AI自动生成法条</p><p>5.2 线上数据回流机制</p><p>5.2.1埋点：</p><ol><li>记录每次问答的完整对话（用户问题、AI回答、检索到的知识片段）</li><li>记录用户是否点击“引用来源”查看原文（可作为“是否满意”的间接信号）</li></ol><p>5.2.2Bad Case收集：</p><ol><li>自动标记：检索相关度低于阈值但仍生成回答的（可能幻觉）</li><li>人工标记：用户反馈“回答不对”或“没帮到我”</li></ol><p>5.2.3标注分发：</p><ol><li>将Bad Case按问题类型分类（召回失败/生成幻觉/格式错误等）</li><li>每周集中review，判断是否需要补充知识库、调整检索参数或修改Prompt</li></ol><p>5.3 数据合规红线</p><ol><li>知识库中不含任何个人隐私数据</li><li>不含任何诱导违法、违规的内容</li><li>回答末尾强制附带免责声明</li></ol><p>6. 成本预算</p><p>6.1 单次调用成本估算</p><table><tr><td><p>成本项</p></td><td><p>说明</p></td><td><p>估算值</p></td></tr><tr><td><p>输入Token</p></td><td><p>系统提示词(~500) + 检索注入(~1500) + 用户问题(~100)</p></td><td><p>~2100 tokens</p></td></tr><tr><td><p>输出Token</p></td><td><p>三段式回答平均长度</p></td><td><p>~800 tokens</p></td></tr><tr><td><p>单次总Token</p></td><td><p>输入+输出</p></td><td><p>~2900 tokens</p></td></tr><tr><td><p>单次成本</p></td><td><p>按qwen3.7-plus计费</p></td><td><p>~¥0.002-0.005/次</p></td></tr></table><p>注意：系统提示词和检索注入的Token是“隐性开销”，常被忽略。输入Token通常是输出Token的3-10倍。</p><p>6.2 规模化后的月度成本</p><table><tr><td><p>使用量</p></td><td><p> 月成本估算</p></td></tr><tr><td><p>100次/月（个人分享）</p></td><td><p> ~¥0.5</p></td></tr><tr><td><p>1000次/月（小范围使用）</p></td><td><p>~¥5</p></td></tr><tr><td><p>10000次/月（公开使用）</p></td><td><p>~¥50</p></td></tr></table><p>6.3 成本管控阈值与降级策略</p><ol><li>积分上限：每个分享链接设置积分上限（如100积分），防止恶意刷量</li><li>降级策略：如成本超预期，可切换至更便宜的模型（如qwen-turbo）</li></ol><p>7. 兜底与风险</p><p>7.1 置信度分级与降级链路</p><p>用户提问</p><p>    ↓</p><p>检索相关度 ≥ 0.1？ ──否──→ 回复：“该问题暂未收录，建议咨询专业律师或HR”</p><p>    ↓ 是</p><p>检索相关度 ≥ 0.5？ ──否──→ 回复：“以下内容仅供参考，建议进一步核实”</p><p>    ↓ 是</p><p>正常输出三段式回答（末尾强制带免责声明）</p><p>7.2 人工介入触发条件</p><ol><li>用户连续3次追问“你确定吗？”或“你懂不懂？”→ 引导“建议咨询专业律师”</li><li>用户提到“急”“马上”“今天就要”→ 引导“紧急情况请拨打12333（劳动保障热线）”</li><li>用户问到超出边界的内容 → 强制拒绝并给出替代建议</li></ol><p>8. 上线计划与灰度策略</p><p>8.1 当前状态</p><ol><li>✅ 已完成：知识库搭建（《劳动合同法》核心条款已入库）</li><li>✅ 已完成：检索参数调优（混合检索 + 最低相关度0.1 + 重排模型）</li><li>✅ 已完成：Prompt工程（三段式输出 + 强制基于知识库 + 免责声明）</li><li>✅ 已完成：分享链接发布（免登录，限积分100）</li></ol><p>8.2 灰度策略</p><ol><li>灰度范围：先分享给5-10位同学/朋友试用</li><li>观察周期：1-2周，收集反馈和Bad Case</li><li>回滚条件：若出现3次以上“引用错误法条”的严重幻觉，立即下线排查</li></ol><p>9. 后续迭代计划</p><p>9.1 短期（1个月内）</p><ol><li>扩充知识库：增加“加班费计算”“年休假”“工伤认定”等高频场景</li><li>优化评测集：从20个问题扩展至50+，覆盖更多边界情况</li><li>收集首批用户反馈，修复已知Bad Case</li></ol><p>9.2 中期（3个月内）</p><ol><li>引入“数据飞轮”：将线上Bad Case持续转化为新的知识片段或测试用例</li><li>增加“置信度打分”功能：当检索相关度偏低时，主动提示用户“该回答仅供参考”</li><li>探索接入更权威的实时数据源（如各地人社局的公开数据）</li></ol><p>9.3 数据飞轮设计</p><p>线上对话 → 自动/人工标记Bad Case → 分类归因 → 定向优化</p><p>    ↑                                                    ↓</p><p>     ←←←←←←←←←←回归评测及验证←←←←←←←←←←←←</p><p>具体执行：</p><p>1. 每周review Bad Case（召回失败/生成幻觉/格式问题）</p><p>2. 判断优化方向：补充知识库 / 调整检索参数 / 修改Prompt</p><p>3. 用评测集回归验证，确保修复不引入新问题</p><p>4. 部署上线，进入下一轮循环</p>
+    </article>
+  </div>
+</body>
+</html>

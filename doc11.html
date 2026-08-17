@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>职场小助手测评集</title>
+<style>
+  :root{
+    --purple-deep:#2e1065; --purple-dark:#4c1d95; --purple:#7c3aed;
+    --cream:#fdf6ec; --dark:#1e1b2e; --yellow:#FBBF24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    background:linear-gradient(180deg,var(--purple-deep),var(--purple-dark));color:var(--dark);min-height:100vh}
+  .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;
+    padding:14px 22px;background:rgba(30,27,46,.85);backdrop-filter:blur(8px);color:#fff}
+  .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:#fff;
+    background:var(--purple);border:2px solid #fff;border-radius:999px;padding:6px 14px;font-size:14px;font-weight:600;transition:.2s}
+  .back:hover{background:var(--yellow);color:var(--dark);border-color:var(--yellow)}
+  .topbar h1{font-size:18px;margin:0;font-weight:800;letter-spacing:.5px}
+  .wrap{max-width:860px;margin:26px auto 80px;padding:0 18px}
+  .paper{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.35);padding:44px 48px;line-height:1.85;font-size:16px}
+  .paper h1{font-size:30px;line-height:1.4}
+  .paper h2{font-size:23px;margin-top:1.6em;padding-bottom:.3em;border-bottom:2px solid var(--yellow)}
+  .paper h3{font-size:19px;margin-top:1.4em}
+  .paper h4{font-size:16.5px}
+  .paper p{margin:.7em 0}
+  .paper ul,.paper ol{margin:.6em 0;padding-left:1.5em}
+  .paper li{margin:.25em 0}
+  .paper img{max-width:100%;height:auto;border-radius:8px}
+  .paper table{border-collapse:collapse;width:100%;margin:1em 0}
+  .paper th,.paper td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+  .paper th{background:#f6f0ff}
+  .paper blockquote{border-left:4px solid var(--purple);margin:1em 0;padding:.3em 1em;background:#faf7ff}
+  .paper a{color:var(--purple)}
+  @media(max-width:640px){.paper{padding:26px 20px}.topbar h1{font-size:15px}}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="../index.html#docs">← 返回产品文档</a>
+    <h1>职场小助手测评集</h1>
+  </div>
+  <div class="wrap">
+    <article class="paper">
+<h1>职场小助手 · RAG 测评集</h1><p>1.当前状态：RAG 工作流（提问→检索→匹配→生成），知识库限劳动法，强制引用法条。正式评测，未达到上限标准。</p><h2>2.指标口径表</h2><table><tr><td><p>指标</p></td><td><p>定义</p></td><td><p>统计窗口</p></td><td><p>分母/去重</p></td><td><p>基线</p></td><td><p>目标</p></td><td><p>来源</p></td><td><p>类型</p></td></tr><tr><td><p>回答准确率</p></td><td><p>与标准答案一致的比例</p></td><td><p>评测集</p></td><td><p>评测条数</p></td><td><p>90%</p></td><td><p>≥95%</p></td><td><p>人工标注</p></td><td><p>滞后</p></td></tr><tr><td><p>引用准确率</p></td><td><p>引用的法条真实存在且相关</p></td><td><p>评测集</p></td><td><p>引用条数</p></td><td><p>90%</p></td><td><p>≥92%</p></td><td><p>人工标注</p></td><td><p>滞后</p></td></tr><tr><td><p>幻觉率</p></td><td><p>生成了不存在/错误法条的比例</p></td><td><p>评测集</p></td><td><p>生成条数</p></td><td><p>8%</p></td><td><p>≤3%	</p></td><td><p>人工标注</p></td><td><p>滞后</p></td></tr><tr><td><p>拒答率</p></td><td><p>超出劳动法范围时正确拒答</p></td><td><p>评测集</p></td><td><p>越界条数</p></td><td><p>95%</p></td><td><p>≥90%</p></td><td><p>人工标注</p></td><td><p>领先</p></td></tr><tr><td><p>用户满意度</p></td><td><p>评分(1-5)</p></td><td><p>周</p></td><td><p>去重到用户</p></td><td><p>3</p></td><td><p>≥4.0	</p></td><td><p>调查</p></td><td><p>滞后</p></td></tr><tr><td><p>平均响应时间</p></td><td><p>从用户提问到看到第1个字的回复，平均耗时</p></td><td><p>评测集</p></td><td><p>测评总数</p></td><td><p>25秒（最长50秒）</p></td><td><p> ≤5秒</p></td><td><p>人工标注</p></td><td><p>领先</p></td></tr></table><h2>3.评测集构建</h2><p>规模：20条（覆盖加班费/辞退/社保/试用期/加班等高频场景）</p><p>标注：标准答案 + 应引法条 + 是否越界</p><p>评测执行：由 2 名标注者独立完成</p><p>双方共40条。</p><p>标注者一致率：92%</p><h2>4. 上线门槛与回滚</h2><p>门槛：核心滞后指标达目标值80%的才扩量</p><p>回滚：任一核心指标连续2天低于基线，回退上一版本并告警</p><h2>5. 当前替代验证（未上线阶段）</h2><p>2名用户走查，核心流程完成率80%</p><p>评测集已建40条，初步准确率85%</p><h2>6.失败模式分类（用于归因）：</h2><table><tr><td><p>失败模式</p></td><td><p>严重程度</p></td><td><p>优先级</p></td><td><p>当前占比</p></td></tr><tr><td><p>检索失败</p></td><td><p>中</p></td><td><p>P1</p></td><td><p>暂未量化</p></td></tr><tr><td><p>生成幻觉</p></td><td><p>高</p></td><td><p>P0</p></td><td><p>8%</p></td></tr><tr><td><p>切分问题</p></td><td><p>中</p></td><td><p>P2</p></td><td><p>暂未量化</p></td></tr></table><p>结论：系统在回答准确率（90%） 和 拒答机制（95%） 上表现良好，但幻觉率（8%） 和 平均响应时间（25秒） 未达上线标准。</p><h2>7.下一步计划：</h2><p>1. 关闭“问题优化”开关（预计提速30%）</p><p>2. 降低“引用上限”至1000（减少检索负担）</p><p>3. 在Prompt中追加“低相关度时承认不知道”规则（预计幻觉率降至3%以内）</p><p>4. 完成优化后，追加一轮回归评测，对比优化前后的数据变化</p>
+    </article>
+  </div>
+</body>
+</html>
